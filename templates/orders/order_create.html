@@ -1,0 +1,44 @@
+{% extends 'product/index.html' %}
+{% block title %}
+    Заказ
+{% endblock %}
+{% block corusel %}
+{% endblock %}
+
+{% block body_content %}
+		    <section class="post col-md-9" style="background: #eee;">
+				<article class="post clearfix">
+				<h2>Оформит заказ</h2>
+				<div class="contailner">
+					<div class="row">
+
+                        <div class="thumbnail">
+                                <div class="col-sm-5">
+                                    <h2>Заполните форму</h2>
+                                    <form class="form-group" action="." method="post">
+                                      {{ form_order.as_p }}
+                                      {% csrf_token %}
+                                      <input type="submit" value="Отправить">
+                                    </form>
+                                  </div>
+
+                                  <div class="col-sm-7">
+                                    <h2>Ваш заказ</h2>
+                                    <ul>
+                                      {% for item in cart  %}
+                                        <li>
+                                          {{ item.product.product_name }} | Количество: {{ item.count_product }} | Цена: {{ item.total_price }}
+                                        </li>
+                                      {% endfor %}
+                                    </ul>
+                                  </div>
+                        </div>
+
+
+                    </div>
+				</div>
+
+
+        </article>
+	</section>
+        {% endblock body_content %}

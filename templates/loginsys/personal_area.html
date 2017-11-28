@@ -1,0 +1,74 @@
+{% extends 'product/index.html' %}
+{% block title %}
+    Заказы
+{% endblock %}
+{% block corusel %}
+{% endblock %}
+
+{% block body_content %}
+		    <section class="post col-md-9" style="background: #eee;">
+				<article class="post clearfix">
+				<h2>Мои заказы</h2>
+                    <a href="{% url "auth:password_change" %}">сменить пороль</a>
+				<div class="contailner">
+
+					<div class="row">
+
+                        <div class="thumbnail">
+                                <table class="cart">
+                                    <thead>
+                                      <tr style="width: 110px; border: 1px solid #ccc";>
+                                        <th class="cart__tb__head">
+                                            Заказ </th>
+                                        <th class="cart__tb__head">
+                                            Статус</th>
+                                        <th class="cart__tb__head">
+                                            Описание</th>
+                                        <th class="cart__tb__head">
+                                            Дата</th>
+                                        <th class="cart__tb__head">
+                                            Сумма</th>
+
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% for item in orders %}
+                                        {% with product=item.product %}
+                                          <tr>
+                                            <td style="border: 1px solid #ccc; padding: 10px;">
+                                              #{{ item.id }}
+                                            </td>
+                                            <td style="border: 1px solid #ccc; padding: 10px;">
+                                                {% if item.paid  %}
+                                                    <i class="btn btn-primary">Оплачено</i>
+                                                {% else %}
+                                                    <i class="btn btn-danger">Неоплачено</i>
+                                                {% endif %}
+                                            </td>
+                                            <td style="border: 1px solid #ccc; padding: 10px;">
+                                                   {% for i in item.get_items %}
+                                                       {{ i.product.product_name }} <i style="color: orangered">x</i>
+                                                       {{ i.count }}<br>
+                                                {% endfor %}
+                                            </td>
+                                            <td style="border: 1px solid #ccc; padding: 10px;">{{ item.order_created|date:"d-N Y-год H:M" }}</td>
+                                          <td style="border: 1px solid #ccc; padding: 10px;">
+                                                   {{ item.get_total_cost }}сом
+                                            </td>
+
+                                          </tr>
+
+                                        {% endwith %}
+                                      {% endfor %}
+
+                                    </tbody>
+                                  </table>
+                        </div>
+
+                    </div>
+				</div>
+
+
+        </article>
+	</section>
+        {% endblock body_content %}

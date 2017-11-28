@@ -1,0 +1,39 @@
+{% extends "product/index.html" %}
+{% block corusel %}
+{% endblock %}
+
+{% block body_content %}
+    <div class="col-md-4">
+    <div class="thumbnail">
+    <h4>Войти</h4>
+ <form method="post">
+ {% csrf_token %}
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" name="username" id="frmlogin-email" class="form-control" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" name="password" id="frmlogin-password" class="form-control" placeholder="Пароль">
+            </div>
+             {% if error_login %}
+                 <span style="color: red; margin: 10px;">{{ error_login }}</span>
+             {% endif %}
+        </div>
+        <p><a href="#" data-forgot="1" rel="nofollow">Забыли пароль?</a></p>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <input type="hidden" name="wa_auth_login" value="1">
+                <input type="submit" value="Войти" class="btn-dsv btn-block">
+            </div>
+        </div>
+    </form>
+
+    </div>
+    У вас не аккаунта? <a href="{% url "auth:register" %}">регистрацию</a>
+    </div>
+
+{% endblock %}

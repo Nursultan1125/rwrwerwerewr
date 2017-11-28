@@ -1,0 +1,90 @@
+{% extends 'product/index.html' %}
+{% block title %}
+    Корзина
+{% endblock %}
+{% block corusel %}
+{% endblock %}
+
+{% block body_content %}
+		    <section class="post col-md-9" style="background: #eee;">
+				<article class="post clearfix">
+				<h2>Корзина</h2>
+				<div class="contailner">
+					<div class="row">
+
+                        <div class="thumbnail">
+                                <table class="cart">
+                                    <thead>
+                                      <tr style="width: 110px; border: 1px solid #ccc";>
+                                        <th class="cart__tb__head">
+                                            Изображение</th>
+                                        <th class="cart__tb__head">
+                                            Продукт</th>
+                                        <th class="cart__tb__head">
+                                            Количество</th>
+                                        <th class="cart__tb__head">
+                                            Удалить</th>
+                                        <th class="cart__tb__head">
+                                            Полная цена</th>
+                                        <th class="cart__tb__head">
+                                            Цена</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% for item in cart %}
+                                        {% with product=item.product %}
+                                          <tr>
+                                            <td style="border: 1px solid #ccc; padding: 10px;">
+                                              <a href="{% url "product:get_product" product.id %}">
+                                                <img src="{{ product.product_image.url}}" alt="" style="width: 80px;"/>
+                                              </a>
+                                            </td>
+                                            <td style="border: 1px solid #ccc; padding: 10px;">{{ product.product_name }}</td>
+                                            <td style="border: 1px solid #ccc; padding: 10px;">
+                                                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                                    {{ item.update_count_form.count_product }}
+                                                    {{ item.update_count_form.update_product }}
+                                                    {% csrf_token %}
+                                                    <input type="submit" class="btn btn-xs btn-danger" value="Обновить">
+                                                </form>
+                                                {% if stock %}
+                                                <div>
+                                                    В налие
+                                                </div>
+                                                {% endif %}
+                                            </td>
+                                            <td style="border: 1px solid #ccc; padding: 10px;"><a href="{% url "cart:cart_remove" product.id %}">Удалить</a></td>
+                                            <td class="jush-num" style="border: 1px solid #ccc; padding: 10px;">{{ item.prices }} сом.</td>
+                                            <td class="num" style="border: 1px solid #ccc; padding: 10px;">{{ item.total_price }} сом.</td>
+                                          </tr>
+                                        {% endwith %}
+                                      {% endfor %}
+
+                                        <tr class="total">
+                                          <td style="border: 1px solid #ccc; padding: 10px;">Всего</td>
+                                          <td colspan="4" style="border: 1px solid #ccc; padding: 10px;"></td>
+                                          <td class="num" style="border: 1px solid #ccc; padding: 10px;">{{ cart.get_total_price }} сом.</td>
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                        <div style="margin: 20px; text-align: right;">
+                             {% if cart.get_total_price != 0 %}
+                            <a href="{% url "orders:order_create" %}" class="btn btn-lg btn-success">Оформить заказ</a>
+                            {% endif %}
+                        </div>
+                        </div>
+
+                    </div>
+				</div>
+
+
+        </article>
+	</section>
+                                        {% for message in messages%}
+                                              <script type="text/javascript">
+
+                                                alert("{{ message}}");
+                                              </script>
+                                          {% empty %}
+                                          {% endfor %}
+{% endblock body_content %}

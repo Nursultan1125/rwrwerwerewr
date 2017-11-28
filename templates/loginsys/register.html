@@ -1,0 +1,87 @@
+{% extends "product/index.html" %}
+{% block corusel %}
+{% endblock %}
+{#{% block nav_category %}#}
+{#		<aside class="col-md-3">#}
+{##}
+{#        </aside>#}
+{#{% endblock %}#}
+
+{% block body_content %}
+    <div class="col-md-4">
+    <div class="thumbnail">
+        <h4>Регистрация</h4>
+ <form method="post">
+                        {% csrf_token %}
+
+                                    <div class="form-group">
+
+{#                                        <div class="input-group">#}
+{#                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>#}
+{#                                            <input type="text" name="data[firstname]" id="frmsignup-name" class="form-control" placeholder="Имя">#}
+{#                                            {{ form.first_name }}#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="form-group">#}
+{#                                        <div class="input-group">#}
+{#                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>#}
+{#                                            <input type="text" name="data[lastname]" id="frmsignup-lastname" class="form-control" placeholder="Фамилия">#}
+{#                                            {{ form.last_name }}#}
+{##}
+{#                                        </div>#}
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+{#                                            <input type="text" name="data[email]" id="frmsignup-email" class="form-control" placeholder="Email">#}
+                                            {{ form.first_name }}
+                                        </div>
+                                        <span style="color: red; font-size: 11px;"><i>{{ form.first_name.errors }}</i></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+{#                                            <input type="text" name="data[firstname]" id="frmsignup-name" class="form-control" placeholder="Имя">#}
+                                            {{ form.username }}
+
+                                        </div>
+                                        <span style="color: red; font-size: 11px;"><i>{{ form.username.errors }}</i></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+{#                                            <input type="password" name="data[password]" id="frmsignup-password" class="form-control" placeholder="Пароль">#}
+                                            {{ form.password1 }}
+                                        </div>
+                                        <span style="color: red; font-size: 11px;"><i>{{ form.password1.errors }}</i></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                {{ form.password2 }}
+{#                                            <input type="password" name="data[password_confirm]" id="frmsignup-confirm" class="form-control" placeholder="Подтвердите пароль">#}
+
+                                        </div>
+                                        <span style="color: red; font-size: 11px;"><i>{{ form.password2.errors }}</i></span>
+                                    </div>
+                                    <div class="row captcha"></div>
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <input type="submit" value="Зарегистрироваться" class="btn-dsv btn-block">
+                                        </div>
+                                    </div>
+                                </form>
+
+    </div>
+    У вас уже есть аккаунт? <a href="{% url "auth:login" %}">войти</a>
+    </div>
+
+{% endblock %}
+
+
+
+
+

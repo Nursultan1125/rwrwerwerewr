@@ -1,0 +1,24 @@
+{% extends "product/index.html" %}
+{% load static %}
+{% block title %}
+    {{ product.product_name }}
+{% endblock %}
+{% block corusel %}
+{% endblock corusel %}
+{% block body_content %}
+    <section class="post col-md-9" style="background: #DDDDDD;">
+        <article class="post clearfix">
+            {% for del in delivery %}
+				<h2 style="color: #555">{{ del.title }}</h2>
+				<div class="contailner">
+					<div class="row">
+                        <div class="contailner" style="padding: 50px 30px;">
+                            {{ del.body|safe }}
+                        </div>
+				    </div>
+			    </div>
+            {% endfor %}
+        </article>
+	</section>
+{% endblock %}
+

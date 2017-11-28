@@ -1,0 +1,195 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}
+    Магазин робототехники и радиодеталей
+{% endblock %}
+{% block auth %}
+    {% if username %}
+        <li><a href="{% url "user:personal_area" %}" class="link" >Личный кабинет</a></li>
+        <li><a href="#" class="link" data-toggle="modal" data-target="#modal-3"  >{{ username }}, Выйти</a></li>
+    {% else %}
+    <li><a href="#" class="link" data-toggle="modal" data-target="#modal-1">Регистрация</a></li>
+    <li><a href="#" class="link" data-toggle="modal" data-target="#modal-2">Войти</a></li>
+    {% endif %}
+{% endblock %}
+
+
+        {% block cart %}
+                 <div class="container">
+                 <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2">
+                        <div class="btn-group"></div>
+                        <a href="{% url "cart:cart_detail" %}" class="btn btn-success">
+                           <i class="glyphicon glyphicon-shopping-cart"></i> Корзина
+                        </a>
+                        <div class="btn btn-success">{{ cart.get_total_count }}</div>
+                    </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-10"></div>
+                     <div class="col-md-2" style="padding: 5px 0px 5px 50px;">
+                         {{ cart.get_total_price }} сом.
+                     </div>
+                 </div>
+                 </div>
+             {% endblock %}
+
+{% block nav_category %}
+		<aside class="col-md-3">
+			<div class="list-group">
+				<span class="list-group-item nav__style">Каталог товаров</span>
+                {% for categ in categorys%}
+                <div class="dropdown list-group-item">
+
+					<a href="{% url "get_category" categ.category_slug %}" class="my_style__a__drop" >
+                        {{ categ.category_title }} {% if categ in category_chaild_not %}
+                            <a href="#" class="glyphicon glyphicon-menu-right dropdown-toggle my_style__a" data-toggle="dropdown">
+                            </a>
+                        {% endif %}
+                    </a>
+						<div class="dropdown-menu dropdown__position">
+                            {% for chaild in category_chaild %}
+                                {% if chaild.category_parent == categ %}
+                                <a href="{% url "get_category" chaild.category_slug %}" class="list-group-item">
+						        	{{ chaild.category_title }}
+						        </a>
+                                {% endif %}
+                            {% endfor %}
+						</div>
+			    </div>
+
+                {% endfor %}
+            </div>
+		</aside>
+        {% endblock nav_category %}
+
+{% block body_content %}
+		    <section class="post col-md-9" style="background: #eee;">
+				<article class="post clearfix">
+				<h2>Новые поступления</h2>
+				<div class="contailner">
+					<div class="row">
+						{% for product in products %}
+							<div class="col-xs-12 col-sm-6 col-md-4">
+								<div class="thumbnail">
+                                    <a href="{% url "product:get_product" product.id %}"><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}"  style="height: 200px;"></a>
+									<div class="caption">
+										<a href="{% url "product:get_product" product.id %}"><h3 style="height: 40px">{{ product.product_name }}</h3></a>
+										<p class="text__anons">
+											 {{ product.get_overview_anons|safe }}...<br/>
+                                            <h4>Цена: {{ product.product_prices }} сом</h4>
+										</p>
+{#                                    <form action="{% url 'cart:cart_add' product.id %}" method="post">#}
+{#                                        {% csrf_token %}#}
+										<div class="btn-group">
+						        			<a href="{% url "cart:cart_add_index" product.id %}" type="submit" class="btn btn-success">
+												<i class="glyphicon glyphicon-shopping-cart"></i>
+												<span class="hidden-xs hidden-sm hidden-md">в корзину</span>
+											</a>
+{#											<button type="button" class="btn btn-success" data-toggle="tooltip" title="" data-original-title="В закладки">#}
+{#												<i class="glyphicon glyphicon-heart"></i>#}
+{#											</button>#}
+						      			</div>
+									</div>
+								</div>
+							</div>
+				        {% endfor %}
+                    </div>
+				</div>
+
+
+        </article>
+	</section>
+        {% endblock body_content %}
+
+{% block modal_regist_form %}
+					<form action="{% url "auth:register" %}" method="post">
+                        {% csrf_token %}
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            {{ form.first_name }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+
+                                            {{ form.username }}
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            {{ form.password1 }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            {{ form.password2 }}
+                                        </div>
+                                    </div>
+                                    <div class="row captcha"></div>
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <input type="submit" value="Зарегистрироваться" class="btn-dsv btn-block">
+                                        </div>
+                                    </div>
+                    </form>
+{% endblock modal_regist_form %}
+
+
+{% block modal_come_form %}
+    <form action="{% url "auth:login" %}" method="post">
+    {% csrf_token %}
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" name="username" id="frmlogin-email" class="form-control" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" name="password" id="frmlogin-password" class="form-control" placeholder="Пароль">
+            </div>
+        </div>
+        <p><a href="#" data-forgot="1" rel="nofollow">Забыли пароль?</a></p>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <input type="hidden" name="wa_auth_login" value="1">
+                <input type="submit" value="Войти" class="btn-dsv btn-block">
+            </div>
+        </div>
+    </form>
+{% endblock modal_come_form %}
+
+{% block modal_exit %}
+   <div class="modal fade" id="modal-3" tabindex="-1" role="dialog" aria-labelledby="signUpLabel" aria-hidden="false">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" type="button" data-dismiss="modal">
+						<i class="glyphicon glyphicon-remove-circle"></i>
+					</button>
+					<h4 class="modal-title text-center">Уже уходите ?</h4>
+				</div>
+				<div class="modal-body">
+                    <a href="{% url "auth:logout" %}" class="btn btn-danger modal__btn" style="margin-left: 10px;">
+						Выйтти
+					</a>
+                    <button class="btn btn-danger modal__btn" type="button" data-dismiss="modal" style="margin-left: 70px;">
+						Отмена
+					</button>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock modal_exit %}

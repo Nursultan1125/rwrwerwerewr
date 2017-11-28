@@ -1,0 +1,314 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+        {% block title %}
+        My Blog
+        {% endblock %}
+    </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible", content="IE=edge">
+    {% block css %}
+	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/style_css.css" %}">
+    {% endblock %}
+    {% block more_css %}
+    {% endblock %}
+
+</head>
+<body>
+
+        {% block header %}
+		<div class="navbar navbar-inverse navbar-static-top">
+			<div class="container">
+                {% block header_navbar_header %}
+				<div class="navbar-header">
+					<a href="{% url "index" %}" class="navbar-brand">
+							<img src="{% static "img/arduino_logo.png" %}" alt="" style="width: 45px">
+					</a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#responsive-menu">
+						<span class="sr-only">Открыть навигацию</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						</button>
+				</div>
+				{% endblock header_navbar_header %}
+                    {% block header_navbar_collapse %}
+					<div class="collapse navbar-collapse" id="responsive-menu">
+						<ul class="nav navbar-nav">
+							<li class="item"><a  class="link link_help" href="{% url "index" %}">Магазин</a></li>
+							<li class="item dropdown">
+								<a  class="link1" href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Проекты
+									<b class="caret"></b>
+									<ul class="dropdown-menu">
+										<li><a href="http://edurobots.ru/katalog-diy-proektov-robotov/" class="link__b">Статьи</a></li>
+										<li><a href="https://www.raspberrypi.org/" class="link__b">Raspbery Pi</a></li>
+										<li><a href="http://arduino-projects.ru" class="link__b">Arduino</a></li>
+									</ul>
+								</a>
+							</li>
+							<li class="item"><a  class="link" href="{% url "delivery" %}">Доставка</a></li>
+							<li class="item"><a  class="link" href="https://m.vk.com/amperkg?act=change_addr">Помощь консультация</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li>
+                                 {% block search_form %}
+								<form method="get" action="{% url "search:search" %}" class="navbar-form hidden-sm">
+								    <div class="search input-group">
+								        <span class="input-group-btn">
+								            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+								        </span>
+								        <input type="search" name="query" class="form-control" placeholder="Найти товары" id="search">
+								    </div>
+								</form>
+                                     {% endblock %}
+							</li>
+                            {% block auth %}
+							<li><a href="#" class="link" data-toggle="modal" data-target="#modal-1">Регистрация</a></li>
+							<li><a href="#" class="link" data-toggle="modal" data-target="#modal-2">Войти</a></li>
+                                {% endblock %}
+						</ul>
+					</div>
+                        {% endblock header_navbar_collapse %}
+			</div>
+		</div>
+
+        {% endblock header %}
+        {% block corusel %}
+	<div id="carousel" class="carousel slide hidden-xs">
+		<!-- индекаторы -->
+		<ol class="carousel-indicators">
+			<li class="active" data-target="#carousel" data-slide="0"></li>
+			<li data-target="#carousel" data-slide="1"></li>
+			<li data-target="#carousel" data-slide="2"></li>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<div class="item active">
+				<img src="{% static "img/adhuinouno.png" %}" alt="" style="height: 480px; margin: 0 auto;">
+				<div class="carousel-caption">
+					<h3></h3>
+					<p></p>
+				</div>
+			</div>
+			<div class="item">
+				<img src="{% static "img/rsbp.jpg" %}" alt="" style="height: 480px; margin: 0 auto;">
+				<div class="carousel-caption">
+					<h3></h3>
+					<p></p>
+				</div>
+			</div>
+			<div class="item">
+				<img src="{% static "img/ar.jpg" %}" alt="" style="height: 480px; margin: 0 auto;">
+				<div class="carousel-caption">
+					<h3></h3>
+					<p></p>
+				</div>
+			</div>
+		</div>
+		  <!-- стрелки -->
+		<a href="#carousel" class="left carousel-control" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		<a href="#carousel" class="right carousel-control" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</div>
+        {% endblock corusel %}
+        {% block cart %}
+                 <div class="container">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2">
+                        <div class="btn-group"></div>
+                        <a href="{% url "cart:cart_detail" %}" class="btn btn-success">
+                           <i class="glyphicon glyphicon-shopping-cart"></i> Корзина
+                        </a>
+                        <div class="btn btn-success">0</div>
+
+                    </div>
+                 </div>
+             {% endblock %}
+        {% block body %}
+	<section class="main container main__con">
+		<div class="row">
+        {% block nav_category %}
+
+        {% endblock nav_category %}
+            {% block body_content %}
+
+        {% endblock body_content %}
+        </div>
+</section>
+
+        {% endblock body %}
+        {% block footer %}
+<footer>
+{% block footer_1 %}
+    <div class="footer" id="footer">
+        <div class="container">
+            <div class="row">
+                {% for i in footer %}
+                <div class="col-md-4">
+                    <h3> {{ i.title_body }} </h3>
+                    <ul>
+                        {% for li in i.get_list_footer %}
+                        <li style="margin-top: 10px;"> {{ li.list_body }} </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+  {% endblock footer_1%}
+
+    <div class="footer-bottom">
+        <div class="container">
+            <p class="pull-left"> amper.kg © 2017, Магазин электротехники и радиодеталей.</p>
+            <div class="pull-right">
+                <ul class="nav nav-pills payments">
+                    <li><i class="fa fa-cc-visa"></i></li>
+                    <li><i class="fa fa-cc-mastercard"></i></li>
+                    <li><i class="fa fa-cc-amex"></i></li>
+                    <li><i class="fa fa-cc-paypal"></i></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--/.footer-bottom-->
+</footer>
+        {% endblock footer %}
+    {% block modal_fade %}
+        {% block modal_regist %}
+	<div class="modal fade" id="modal-1" tabindex="-1" role="dialog" aria-labelledby="signUpLabel" aria-hidden="false">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" type="button" data-dismiss="modal">
+						<i class="glyphicon glyphicon-remove-circle"></i>
+					</button>
+					<h4 class="modal-title text-center">Регистрация</h4>
+				</div>
+				<div class="modal-body">
+					У вас уже есть аккаунт?
+					<a href="{% url "auth:login" %}" data-signup="1" rel="nofollow">войти</a>
+                    {% block modal_regist_form %}
+					<form action="/signup/" method="post">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input type="text" name="data[firstname]" id="frmsignup-name" class="form-control" placeholder="Имя">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input type="text" name="data[lastname]" id="frmsignup-lastname" class="form-control" placeholder="Фамилия">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                            <input type="text" name="data[email]" id="frmsignup-email" class="form-control" placeholder="Email">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <input type="password" name="data[password]" id="frmsignup-password" class="form-control" placeholder="Пароль">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <input type="password" name="data[password_confirm]" id="frmsignup-confirm" class="form-control" placeholder="Подтвердите пароль">
+                                        </div>
+                                    </div>
+                                    <div class="row captcha"></div>
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <input type="submit" value="Зарегистрироваться" class="btn-dsv btn-block">
+                                        </div>
+                                    </div>
+                                </form>
+                        {% endblock modal_regist_form %}
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger modal__btn" type="button" data-dismiss="modal">
+						Отмена
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+            {% endblock modal_regist %}
+        {% block modal_come %}
+	<div class="modal fade" id="modal-2" tabindex="-1" role="dialog" aria-labelledby="signUpLabel" aria-hidden="false">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" type="button" data-dismiss="modal">
+						<i class="glyphicon glyphicon-remove-circle"></i>
+					</button>
+					<h4 class="modal-title text-center">Войти</h4>
+				</div>
+				<div class="modal-body">
+					У вас нет аккаунта?
+					<a href="{% url "auth:register" %}" data-signup="1" rel="nofollow">регистрацию</a>
+                    {% block modal_come_form %}
+					<form action="/login/" method="post">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input type="text" name="login" id="frmlogin-email" class="form-control" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                            <input type="password" name="password" id="frmlogin-password" class="form-control" placeholder="Пароль">
+                                        </div>
+                                    </div>
+                                    <p><a href="#" data-forgot="1" rel="nofollow">Забыли пароль?</a></p>
+                                    <div class="row">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <input type="hidden" name="wa_auth_login" value="1">
+                                            <input type="submit" value="Войти" class="btn-dsv btn-block">
+                                        </div>
+                                    </div>
+                                </form>
+                        {% endblock modal_come_form %}
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger modal__btn" type="button" data-dismiss="modal">
+						Отмена
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    {% endblock modal_come %}
+	{% endblock modal_fade %}
+    {% block modal_exit %}
+    {% endblock %}
+
+    {% block js %}
+    <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "js/jquery.maskedinput.js" %}"></script>
+	<script src="{% static "js/bootstrap.min.js" %}"></script>
+	<script src="{% static "js/common.js" %}"></script>
+
+    {% endblock js %}
+       <script type="text/javascript">
+           $("#phone1").mask("0(999) 999 - 999");
+        </script>
+    {% block more_js %}
+    {% endblock%}
+
+</body>
+</html>

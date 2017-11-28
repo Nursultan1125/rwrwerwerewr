@@ -1,0 +1,25 @@
+{% extends 'product/index.html' %}
+{% block title %}
+    Заказ выполнен
+{% endblock %}
+{% block corusel %}
+{% endblock %}
+
+{% block body_content %}
+		    <section class="post col-md-9" style="background: #eee;">
+				<article class="post clearfix">
+				<h2>Оформит заказ</h2>
+				<div class="contailner">
+					<div class="row">
+
+                        <div class="thumbnail" style="height: 300px; text-align: center;">
+                        <h2>Спасибо за заказ</h2>
+                         <p>Идентификатор вашего заказа: {{ order.id }}</p>
+                        </div>
+                    </div>
+				</div>
+
+
+        </article>
+	</section>
+        {% endblock body_content %}

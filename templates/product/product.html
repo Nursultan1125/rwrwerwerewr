@@ -1,0 +1,101 @@
+{% extends "product/index.html" %}
+{% load static %}
+{% block title %}
+    {{ product.product_name }}
+{% endblock %}
+{% block corusel %}
+{% endblock corusel %}
+
+{% block body_content %}
+    <section class="post col-md-9" style="background: #DDDDDD;">
+				<article class="post clearfix">
+				<h2>{{ product.product_name }}</h2>
+				<div class="contailner">
+					<div class="row">
+						<div class="col-md-7">
+							<div class="thumbnail">
+							<img src="{{ product.product_image.url }}" alt="">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="thumbnail" >
+								<div class="list-group text-center" >
+									<span class="list-group-item nav__style"><h4>Цена: {{ product.product_prices }} сом</h4></span>
+									<span class="list-group-item"><p>
+
+                                            {% if product.product_stock >= 5 %}
+                                            <i class="glyphicon glyphicon-plus-sign" style="color: green"></i>
+                                            В наличие {{ product.product_stock }} штук
+                                            {% elif product.product_stock < 5 and product.product_stock >= 3%}
+                                            <i class="glyphicon glyphicon-plus-sign" style="color: yellow"></i>
+                                            В наличие {{ product.product_stock }} штук
+                                            {% elif product.product_stock < 3 and product.product_stock > 0%}
+                                            <i class="glyphicon glyphicon-plus-sign" style="color: red"></i>
+                                            В наличие {{ product.product_stock }} штук
+
+                                        {% else %}
+                                            <i class="glyphicon glyphicon-minus-sign" style="color: #8c8c8c"></i>
+                                            <b style="color: #8c8c8c">В наличие нет.</b>
+                                        {% endif %}
+                                    </p>
+                                    <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                         {% csrf_token %}
+                                        <div style="margin: 10px">
+                                            Кол-во
+                                            {{ cart_product_form.count_product }}
+                                            шт.
+                                        </div>
+							        	<button type="submit" class="btn btn-success btn-lg  btn-block">
+												<i class="glyphicon glyphicon-shopping-cart"></i>
+												<span href="" class="hidden-xs hidden-sm hidden-md">в корзину</span>
+										</button>
+
+{#										<button type="button" class="btn btn-success btn-lg  btn-block" data-toggle="tooltip" title="" data-original-title="В закладки">#}
+{#												<i class="glyphicon glyphicon-heart"></i>#}
+{#                                        </button>#}
+                                    </form>
+									</span>
+
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+						<div class="thumbnail">
+
+							<p class="text__product" >
+								<div class="description__col" style="font-size: 13px;">
+									 {{ product.product_overview|safe }}
+								</div>
+								</p>
+
+							</div>
+                         {% if username %}
+                <div class="thumbnail">
+                    <h3>Отзыв </h3>
+                    <form action="{% url "create_comment" product.id%}" method="get">
+                        <textarea name="body" class="form-control" style="margin-bottom: 20px;"></textarea>
+                        <input type="submit" value="Отравить" class="btn btn-success">
+                    </form>
+                 </div>
+                <div class="thumbnail">
+                    {% for comment in product.get_comments %}
+                        <div style="padding: 5px 20px">
+                        <h4 style="color: #2a6496;">{{ comment.comment_author }}</h4>
+                        <p>{{ comment.comment_body }}</p>
+                            <h5 style="color: #888;">{{ comment.date_create|date:'H:i d.M.Y' }}</h5>
+                        <hr/>
+                        </div>
+                    {% endfor %}
+                </div>
+			</div>
+                    {% endif %}
+
+		</div>
+					</div>
+				</div>
+			</div>
+
+</article>
+	</section>
+{% endblock %}
+

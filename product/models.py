@@ -9,7 +9,7 @@ class Category(models.Model):
         verbose_name_plural = 'Каталог товаров'
     category_title = models.CharField(max_length=20, verbose_name="Категория")
     category_parent = models.ForeignKey('self', blank=True, null=True, default=None)
-    category_slug = models.SlugField(unique=True)
+    category_slug = models.SlugField(unique=True, max_length=255)
 
     def __str__(self):
         return self.category_title

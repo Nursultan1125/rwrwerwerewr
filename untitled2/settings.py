@@ -25,7 +25,6 @@ SECRET_KEY = '*j0o$wp!*5+00rsi)4*%3hnliv!z7tv&#u1rmk(@7v^t07bxu6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 ALLOWED_HOSTS = ['*']
 
 
@@ -170,13 +169,14 @@ STATICFILES_FINDERS = (
 
 CART_SESSION_ID = 'cart'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL__HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL__HOST_USER = "provervka@mail.com"
-EMAIL__HOST_PASSWORD = "posledovatelnostfibonachi"
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 try:
     from local import *

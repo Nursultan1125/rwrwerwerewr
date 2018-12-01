@@ -3,12 +3,10 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from cart.cart import Cart
-from footer_data.models import TitleFooter
-from loginsys.forms import UserCreateProfile
 from orders.forms import OrderCreateForm
 from orders.models import OrderItem
 from orders.tasks import OrderCreated
-from product.models import Category
+import threading
 
 
 @csrf_exempt
@@ -20,7 +18,6 @@ def order_create(request):
         return redirect('auth:register')
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             order = form.save()
             order.users = auth.get_user(request)
@@ -31,9 +28,12 @@ def order_create(request):
                                          price=item['prices'],
                                          count=item['count_product'])
             cart.clear()
-            OrderCreated(order.id)
+            args = {'order': order}
+            thread = threading.Thread(target=send_mail,
+                                      args=(order.id,))
+            thread.start()
 
-            return render(request, 'orders/order_created.html')
+            return render(request, 'orders/order_created.html', args)
 
     form = OrderCreateForm()
     args = {
@@ -41,3 +41,7 @@ def order_create(request):
         'form_order': form,
     }
     return render(request, 'orders/order_create.html', args)
+
+
+def send_mail(id):
+    OrderCreated(id)

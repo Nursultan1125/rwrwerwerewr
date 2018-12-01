@@ -38,6 +38,19 @@ def logout(request):
 def register(request):
     args = dict()
     args.update(csrf(request))
+    args['form'] = UserCreateProfile()
+
+    if request.POST:
+        newuser_form = UserCreateProfile(request.POST)
+        if newuser_form.is_valid():
+            newuser_form.save()
+            newuser = auth.authenticate(username=newuser_form.cleaned_data['username'],
+                                        password=newuser_form.cleaned_data['password2'])
+            auth.login(request, newuser)
+            return redirect('/')
+        else:
+            args['form'] = newuser_form
+
     return render(request, "loginsys/register.html", args)
 
 

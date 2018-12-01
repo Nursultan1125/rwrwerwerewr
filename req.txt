@@ -4,7 +4,7 @@ billiard==3.3.0.23
 celery==3.1.18
 Django==1.11.1
 django-ckeditor==5.2.2
-django-jet==1.0.6+
+django-jet==1.0.6
 kombu==3.0.37
 olefile==0.44
 Pillow==4.1.1

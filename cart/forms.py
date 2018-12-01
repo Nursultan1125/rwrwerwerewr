@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import forms
 
 PRODUCT_COUNT_CHOICES = [(i, str(i)) for i in range(1, 21)]

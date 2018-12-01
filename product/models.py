@@ -22,7 +22,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
-    product_name = models.CharField(max_length=30, verbose_name="Нзавания товара")
+    product_name = models.CharField(max_length=30, verbose_name="Назавания товара")
     product_overview = RichTextUploadingField(verbose_name="Обзор", blank=True)
     product_image = models.ImageField(upload_to='images/product/', verbose_name='Картинка товара')
     product_prices = models.IntegerField(verbose_name="Цена")
